@@ -14,10 +14,10 @@ def create_app():
             password=app.config['DB_PASSWORD'],
             database=app.config['DB_NAME']
         )
-        print("🟢 MySQL Database connection successful!")
+        print("MySQL Database connection successful!")
         db.close()
     except mysql.connector.Error as err:
-        print(f"🔴 MySQL Connection Error: {err}")
+        print(f"MySQL Connection Error: {err}")
 
     # Register routes
     with app.app_context():
