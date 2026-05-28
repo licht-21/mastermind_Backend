@@ -1,23 +1,23 @@
 from flask import Flask
-from flask_sqlalchemy import SQLAlchemy
 from config import Config
-
-db = SQLAlchemy()
+import mysql.connector
 
 def create_app():
     app = Flask(__name__)
     app.config.from_object(Config)
-    
-    # Initialize SQLAlchemy
-    db.init_app(app)
 
-    # Test database connection
-    with app.app_context():
-        try:
-            db.session.execute('SELECT 1')
-            print("✓ Supabase PostgreSQL connection successful!")
-        except Exception as err:
-            print(f"✗ Database Connection Error: {err}")
+    # Simple database connection test helper
+    try:
+        db = mysql.connector.connect(
+            host=app.config['DB_HOST'],
+            user=app.config['DB_USER'],
+            password=app.config['DB_PASSWORD'],
+            database=app.config['DB_NAME']
+        )
+        print("MySQL Database connection successful!")
+        db.close()
+    except mysql.connector.Error as err:
+        print(f"MySQL Connection Error: {err}")
 
     # Register routes
     with app.app_context():
